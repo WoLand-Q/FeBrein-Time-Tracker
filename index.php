@@ -68,7 +68,7 @@ $username = $_SESSION['username'] ?? 'Гость';
             <button type="submit">Выйти</button>
         </form>
         <footer>
-            <p>Project: <a href="https://github.com/YourUsername/FebTine" target="_blank">FebTime</a></p>
+            <p>Project: <a href="https://github.com/WoLand-Q/FeBrein-Time-Tracker" target="_blank">FebTime</a></p>
             <p>Me: <a href="https://t.me/yarmitt" target="_blank">Telegram</a></p>
         </footer>
 
