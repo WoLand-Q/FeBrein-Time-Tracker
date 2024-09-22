@@ -1,0 +1,652 @@
+/* Сброс стилей по умолчанию */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #ece9e6, #ffffff);
+    color: #333;
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+}
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+/* Основной контейнер */
+.container-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Изменено для лучшего расположения контента */
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #f9f9f9; /* Добавлен фон для лучшего контраста */
+}
+
+/* Логотип */
+.logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* Заголовок */
+.animated-title {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.febrein {
+    font-size: 3rem;
+    background: linear-gradient(45deg, #007bff, #00ccff); /* Blue gradient */
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: fadeIn 3s ease-in-out forwards, glow 1.5s infinite alternate;
+    padding-right: 10px; /* Space between words */
+}
+
+.time-tracker {
+    font-size: 2.5rem;
+    color: #00ccff;
+    animation: fadeIn 3s ease-in-out forwards, glow 1.5s infinite alternate;
+}
+
+.welcome {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+/* Админ Панель */
+.admin-control {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: flex-end; /* Расположение кнопок справа */
+    gap: 15px; /* Отступ между кнопками */
+}
+
+.admin-control .admin-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none; /* Убираем подчеркивание */
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.load-data-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+.load-data-button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.admin-control:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+.admin-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+/* Кнопка "Добавить Пользователя" */
+.toggle-add-user-button {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 20px auto; /* Центрируем кнопку и добавляем нижний отступ */
+    padding: 10px 20px;
+    background-color: #17a2b8; /* Иной цвет для различия */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.toggle-add-user-button:hover {
+    background-color: #138496;
+    transform: translateY(-2px);
+}
+
+/* Форма Добавления Пользователя */
+.add-user-form {
+    width: 100%;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+    transition: max-height 0.5s ease; /* Changed transition */
+    overflow: hidden;
+    max-height: 0;
+}
+
+.add-user-form.active {
+    max-height: 1010px; /* Достаточно большое значение для раскрытия */
+    transform: translateY(0);
+}
+
+.add-user-form h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.8em;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.toggle-password {
+    position: absolute;
+    top: 35px;
+    right: 15px;
+    cursor: pointer;
+    color: #999;
+    font-size: 1.2em;
+    transition: color 0.3s;
+}
+
+.toggle-password:hover {
+    color: #666;
+}
+
+/* Кнопка отправки */
+button[type="submit"],
+button[type="button"],
+button {
+    padding: 12px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    margin-top: 10px;
+    align-self: center; /* Центрируем кнопку внутри формы */
+}
+
+button[type="submit"]:hover,
+button[type="button"]:hover,
+button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+button[type="submit"]:active,
+button[type="button"]:active,
+button:active {
+    transform: translateY(1px);
+}
+
+/* Таблица пользователей */
+.user-list {
+    width: 100%;
+    max-width: 800px;
+}
+
+.user-list h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.8em;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.user-list table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.user-list table thead {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.user-list table th,
+.user-list table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-list table tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+
+.user-list table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+.status-working {
+    color: #28a745; /* Зеленый */
+    font-weight: bold;
+}
+
+.status-on-lunch {
+    color: #ffc107; /* Желтый */
+    font-weight: bold;
+}
+
+.status-not-working {
+    color: #dc3545; /* Красный */
+    font-weight: bold;
+}
+.user-list table th {
+    font-size: 1em;
+}
+
+.action-button {
+    padding: 6px 12px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 5px;
+    font-size: 0.9em;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.action-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.delete-button {
+    background-color: #dc3545;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+/* Сообщения об ошибках */
+.error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 15px 20px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1em;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Кнопка назад */
+.back-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #fff;
+    background-color: #007bff;
+    text-decoration: none;
+    font-size: 1em;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Таблица сессий работы */
+#work-sessions {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    text-align: left;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+#work-sessions th,
+#work-sessions td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+#work-sessions th {
+    background-color: #28a745;
+    color: white;
+    font-size: 1em;
+}
+
+#work-sessions td {
+    text-align: center;
+    font-size: 0.95em;
+}
+
+#work-sessions tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+
+#work-sessions tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Кнопки управления статусом */
+#status-control {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+#status-control button {
+    padding: 12px 25px;
+    font-size: 1em;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    color: #fff;
+    min-width: 150px;
+    margin: 0 10px;
+}
+
+#status-control button#start-work {
+    background-color: #28a745;
+}
+
+#status-control button#start-work:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#status-control button#start-lunch {
+    background-color: #ffc107;
+    color: #333;
+}
+
+#status-control button#start-lunch:hover {
+    background-color: #e0a800;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+#status-control button#stop-work {
+    background-color: #dc3545;
+}
+
+#status-control button#stop-work:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Style for timers */
+#timer, #lunch-timer {
+    font-size: 1.5em;
+    margin-top: 15px;
+    color: #555;
+    animation: fadeInUp 1s;
+}
+
+/* Footer with project and author links */
+footer {
+    width: 100%;
+    background-color: #f1f1f1;
+    padding: 15px 0;
+    text-align: center;
+    margin-top: 20px;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+}
+
+footer p {
+    margin: 5px 0;
+    font-size: 0.95em;
+    color: #555;
+}
+
+footer a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Стиль для кнопки выхода */
+.logout-form {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.logout-form button {
+    background-color: #6c757d;
+    color: #fff;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    font-size: 1em;
+}
+
+.logout-form button:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.logout-form button:active {
+    transform: translateY(1px);
+}
+
+/* Сообщения об ошибках */
+.error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 15px 20px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1em;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Анимации */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+/* Контейнер для админ-панели и кнопки загрузки */
+.admin-control-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Styling the date label */
+.date-control label {
+    font-weight: 500;
+    margin-right: 10px;
+    font-size: 1em;
+    color: #333;
+}
+
+/* Styling the date input */
+.date-control input[type="date"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #333;
+    background-color: #fff;
+    transition: border-color 0.3s;
+}
+
+.date-control input[type="date"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.admin-button {
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+    font-weight: 500;
+    display: inline-block; /* Ensures the button is inline */
+}
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .container-main {
+        padding: 10px;
+    }
+
+    .admin-control {
+        justify-content: center;
+    }
+
+    .admin-control .admin-button {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+    }
+
+    .toggle-add-user-button {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .add-user-form,
+    .user-list,
+    #work-sessions,
+    #status-control {
+        max-width: 100%;
+    }
+
+    .add-user-form form,
+    .user-list table,
+    .logout-form button {
+        width: 100%;
+    }
+
+    button[type="submit"],
+    button[type="button"],
+    button {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    #status-control {
+        flex-direction: column;
+    }
+
+    footer p {
+        font-size: 0.85em;
+    }
+}
