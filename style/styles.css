@@ -4,6 +4,20 @@
     padding: 0;
     box-sizing: border-box;
 }
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
 
 body {
     font-family: 'Roboto', sans-serif;

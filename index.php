@@ -1,6 +1,7 @@
 <?php
 require_once 'src/app.php';
-require_once 'src/Role.php';
+require_once 'src/role.php';
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -16,7 +17,7 @@ $username = $_SESSION['username'] ?? 'Гость';
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta name="version" content="2.1">
+    <meta name="version" content="2.2">
     <meta charset="UTF-8">
     <title>FeBrein Time Tracker</title>
     <link rel="stylesheet" href="style/styles.css">
