@@ -16,7 +16,7 @@ $username = $_SESSION['username'] ?? 'Гость';
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta name="version" content="2.0">
+    <meta name="version" content="2.1">
     <meta charset="UTF-8">
     <title>FeBrein Time Tracker</title>
     <link rel="stylesheet" href="style/styles.css">
