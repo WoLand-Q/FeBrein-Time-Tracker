@@ -58,7 +58,7 @@ FeBrein Time Tracker — это веб-приложение для отслеж�
    Откройте терминал или командную строку и выполните следующие команды:
 
    ```bash
-   git clone https://github.com/ваше_имя_пользователя/febrein-time-tracker.git
+   git clone https://github.com/WoLand-Q/FeBrein-Time-Tracker/tree/FeBrein-Time-Tracker
    cd febrein-time-tracker
 
 ## Инструкция по импорту файла `febtime.sql` в phpMyAdmin
