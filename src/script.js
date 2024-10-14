@@ -72,8 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
-
     // Функция для сохранения данных сессии в БД
     function saveSessionToDB(status, additionalData = {}) {
         const sessionData = {
@@ -103,10 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => console.error('Ошибка при сохранении сессии:', error));
     }
 
-
-
-
-
     // Функция для загрузки данных за выбранную дату
     async function loadSessionData() {
         const selectedDate = dateInput ? dateInput.value : new Date().toISOString().split('T')[0];
@@ -126,6 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             sessionsArray.forEach(session => {
+                const firstName = session.first_name || 'N/A';
+                const lastName = session.last_name || 'N/A';
                 const startTime = session.start_time ? formatTime(session.start_time) : 'N/A';
                 const endTime = session.end_time ? formatTime(session.end_time) : 'N/A';
                 const lunchTime = session.lunch_start_time ? `${formatTime(session.lunch_start_time)} - ${session.lunch_end_time ? formatTime(session.lunch_end_time) : 'N/A'}` : 'N/A';
@@ -149,7 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 row.innerHTML = `
-                    <td>${session.username || 'N/A'}</td>
+                    <td>${firstName}</td>
+                    <td>${lastName}</td>
                     <td class="${statusClass}">${statusTranslation[session.status] || session.status || 'N/A'}</td>
                     <td>${startTime}</td>
                     <td>${endTime}</td>
@@ -160,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 tableBody.appendChild(row);
             });
 
-            // Добавляем обработчики для кнопок удаления (если они существуют)
+            // Добавляем обработчики для кнопок удаления
             if (isAdmin) {
                 document.querySelectorAll('.delete-btn').forEach(button => {
                     button.addEventListener('click', async (event) => {
@@ -196,7 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Ошибка при удалении сессии:', error);
         }
     }
-
 
     // Функция для обновления таймеров
     function updateTimers() {
@@ -270,10 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
         startWorkBtn.textContent = 'Работаем';
     }
 
-
-
-
-
     // Функция для запуска таймера обеда
     function startLunchTimer(isRestoring = false) {
         if (!isRestoring) {
@@ -300,51 +292,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         startLunchBtn.disabled = true;
         startWorkBtn.disabled = false;
+        stopWorkBtn.disabled = false;
         startWorkBtn.textContent = 'Продолжить работу';
-        stopWorkBtn.disabled = false;
     }
-
-    // Функция для остановки таймера обеда и продолжения работы
-    function stopLunchTimerAndResumeWork() {
-        if (lunchTimerInterval) {
-            clearInterval(lunchTimerInterval);
-            lunchTimerInterval = null;
-            console.log('Lunch timer cleared');
-        }
-
-        if (lunchStartTime) {
-            totalLunchTime += new Date() - lunchStartTime;
-            const lunchEndTime = getLocalTime();
-            console.log('Accumulated lunch time:', totalLunchTime, 'Lunch ended at:', lunchEndTime);
-            lunchStartTime = null;
-
-            // Обновляем статус на "working" в базе данных с lunch_end_time
-            const updateData = {
-                status: 'working',
-                lunch_end_time: lunchEndTime,
-                total_lunch_time: formatTotalTime(totalLunchTime)
-            };
-            saveSessionToDB('working', updateData);
-        }
-
-        lunchTimerDisplay.style.display = 'none';
-        lunchTimerDisplay.textContent = 'Время обеда: 00:00:00';
-        console.log('Lunch timer display hidden');
-
-        // Устанавливаем workStartTime на текущее время
-        workStartTime = new Date();
-
-        // Запускаем таймер работы
-        if (!workTimerInterval) {
-            workTimerInterval = setInterval(updateTimers, 1000);
-        }
-
-        startWorkBtn.disabled = true;
-        startLunchBtn.disabled = false;
-        stopWorkBtn.disabled = false;
-        startWorkBtn.textContent = 'Работаем';
-    }
-
 
     // Функция для остановки таймеров и сохранения данных (закончить работу)
     function stopAllTimers() {
@@ -388,6 +338,46 @@ document.addEventListener('DOMContentLoaded', () => {
         showEndWorkConfirmation(endTime, totalHoursFormatted);
     }
 
+    // Функция для остановки таймера обеда и продолжения работы
+    function stopLunchTimerAndResumeWork() {
+        if (lunchTimerInterval) {
+            clearInterval(lunchTimerInterval);
+            lunchTimerInterval = null;
+            console.log('Lunch timer cleared');
+        }
+
+        if (lunchStartTime) {
+            totalLunchTime += new Date() - lunchStartTime;
+            const lunchEndTime = getLocalTime();
+            console.log('Accumulated lunch time:', totalLunchTime, 'Lunch ended at:', lunchEndTime);
+            lunchStartTime = null;
+
+            // Обновляем статус на "working" в базе данных с lunch_end_time
+            const updateData = {
+                status: 'working',
+                lunch_end_time: lunchEndTime,
+                total_lunch_time: formatTotalTime(totalLunchTime)
+            };
+            saveSessionToDB('working', updateData);
+        }
+
+        lunchTimerDisplay.style.display = 'none';
+        lunchTimerDisplay.textContent = 'Время обеда: 00:00:00';
+        console.log('Lunch timer display hidden');
+
+        // Устанавливаем workStartTime на текущее время
+        workStartTime = new Date();
+
+        // Запускаем таймер работы
+        if (!workTimerInterval) {
+            workTimerInterval = setInterval(updateTimers, 1000);
+        }
+
+        startWorkBtn.disabled = true;
+        startLunchBtn.disabled = false;
+        stopWorkBtn.disabled = false;
+        startWorkBtn.textContent = 'Работаем';
+    }
 
     // Функция для отображения модального окна подтверждения окончания работы
     function showEndWorkConfirmation(endTime, totalHoursFormatted) {
@@ -526,7 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Функция для восстановления таймеров из БД
     async function restoreTimers() {
-        sessionData = await getSessionFromDB();
+        const sessionData = await getSessionFromDB();
 
         console.log('Восстанавливаем сессию:', sessionData);
 
@@ -595,8 +585,144 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTimers();
     }
 
+    // Функция для расчета времени до определенного часа
+    function getTimeUntil(hour, minute = 0, second = 0) {
+        const now = new Date();
+        const target = new Date();
 
+        target.setHours(hour, minute, second, 0);
+        if (target <= now) {
+            target.setDate(target.getDate() + 1);
+        }
 
+        return target - now;
+    }
+
+    // Асинхронная функция для сброса интерфейса в полночь
+    async function resetInterface() {
+        console.log('Сбрасываем интерфейс в полночь');
+
+        // Получаем текущую сессию пользователя из БД
+        const sessionData = await getSessionFromDB();
+
+        if (!sessionData || sessionData.status === 'not_working') {
+            console.log('Пользователь уже не работает. Сброс не требуется.');
+            return;
+        }
+
+        // Рассчитываем общее время работы до момента сброса
+        let currentWorkTime = totalWorkTime;
+        if (workStartTime) {
+            currentWorkTime += new Date() - workStartTime;
+        }
+
+        // Рассчитываем общее время обеда
+        let currentLunchTime = totalLunchTime;
+        if (lunchStartTime) {
+            currentLunchTime += new Date() - lunchStartTime;
+        }
+
+        const totalHoursFormatted = formatTotalTime(currentWorkTime);
+        const totalLunchFormatted = formatTotalTime(currentLunchTime);
+
+        // Сохраняем данные на сервере
+        saveSessionToDB('not_working', {
+            end_time: getLocalTime(),
+            total_work_time: totalHoursFormatted,
+            total_lunch_time: totalLunchFormatted
+        });
+
+        // Обнуляем локальные переменные после отправки
+        totalWorkTime = 0;
+        totalLunchTime = 0;
+        workStartTime = null;
+        lunchStartTime = null;
+
+        // Сбрасываем отображение таймеров
+        workTimerDisplay.textContent = 'Время работы: 00:00:00';
+        lunchTimerDisplay.style.display = 'none';
+        lunchTimerDisplay.textContent = 'Время обеда: 00:00:00';
+
+        // Обновляем состояние кнопок
+        startWorkBtn.disabled = false;
+        startWorkBtn.textContent = 'Начать работу';
+        startLunchBtn.disabled = true;
+        stopWorkBtn.disabled = true;
+
+        // Останавливаем любые запущенные таймеры
+        if (workTimerInterval) {
+            clearInterval(workTimerInterval);
+            workTimerInterval = null;
+        }
+        if (lunchTimerInterval) {
+            clearInterval(lunchTimerInterval);
+            lunchTimerInterval = null;
+        }
+
+        console.log('Интерфейс успешно сброшен и данные сохранены.');
+    }
+
+    // Функция для перезагрузки страницы в 6 утра
+    function reloadPage() {
+        console.log('Перезагружаем страницу в 6 утра');
+        location.reload();
+    }
+
+    // Установка таймеров для сброса интерфейса и перезагрузки страницы
+    function scheduleDailyTasks() {
+        // Время до полуночи
+        const timeUntilMidnight = getTimeUntil(0, 0, 0);
+        setTimeout(async () => {
+            await resetInterface();
+
+            // Устанавливаем повторение каждые 24 часа
+            setInterval(resetInterface, 24 * 60 * 60 * 1000);
+        }, timeUntilMidnight);
+
+        // Время до 6 утра
+        const timeUntil6AM = getTimeUntil(6, 0, 0);
+        setTimeout(() => {
+            reloadPage();
+
+            // Устанавливаем повторение каждые 24 часа
+            setInterval(reloadPage, 24 * 60 * 60 * 1000);
+        }, timeUntil6AM);
+    }
+
+    // Вызов функции для установки таймеров
+    scheduleDailyTasks();
+
+    // Функция для обновления таймеров каждую секунду
+    function startTimers() {
+        setInterval(function() {
+            // Логика обновления времени работы и обеда
+            updateTimers();
+        }, 1000);
+    }
+
+    startTimers();
+
+    // Обработчик для кнопки сворачивания/разворачивания блока информации
+    function toggleInfo() {
+        var infoSection = document.querySelector('.info-section');
+        var icon = document.querySelector('#toggle-info i');
+
+        // Переключаем класс для сворачивания/разворачивания
+        infoSection.classList.toggle('collapsed');
+
+        // Меняем иконку
+        if (infoSection.classList.contains('collapsed')) {
+            icon.className = 'fas fa-chevron-up';
+        } else {
+            icon.className = 'fas fa-chevron-down';
+        }
+    }
+
+    // Обработчик для кнопки сворачивания/разворачивания блока информации
+    const toggleInfoBtn = document.getElementById('toggle-info');
+    if (toggleInfoBtn) {
+        toggleInfoBtn.onclick = toggleInfo;
+    }
 
     // Обработчики событий
     startWorkBtn.addEventListener('click', (event) => {
@@ -610,7 +736,6 @@ document.addEventListener('DOMContentLoaded', () => {
             startWorkTimer();
         }
     });
-
 
     startLunchBtn.addEventListener('click', (event) => {
         event.preventDefault();

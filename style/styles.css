@@ -1,4 +1,61 @@
 /* Сброс стилей по умолчанию */
+
+/* Стили для информационного блока */
+.info-section {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    max-width: 400px;
+    transition: all 0.3s ease;
+}
+.change-password-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #17a2b8;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.change-password-button:hover {
+    background-color: #138496;
+}
+
+.info-section h2 {
+    text-align: center;
+    color: #34495e;
+    margin: 0;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-section ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+    display: none; /* Скрываем список по умолчанию */
+}
+
+.info-section ul li {
+    padding-left: 10px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+.info-section.collapsed ul {
+    display: block; /* Отображаем список при открытии */
+}
+
+
+
 * {
     margin: 0;
     padding: 0;

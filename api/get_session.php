@@ -13,6 +13,6 @@ if (!$api->isGet()) {
 $date = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
 
 // Получаем все сессии всех пользователей за выбранную дату
-$sessions = $db->fetchAll('SELECT sessions.*, users.username FROM sessions INNER JOIN users ON sessions.user_id = users.id WHERE sessions.date = ?', [$date]);
+$sessions = $db->fetchAll('SELECT sessions.*, users.first_name, users.last_name FROM sessions INNER JOIN users ON sessions.user_id = users.id WHERE sessions.date = ?', [$date]);
 $api->successResponse($sessions);
 ?>

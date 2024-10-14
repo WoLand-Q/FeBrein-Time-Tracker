@@ -6,22 +6,24 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: login/login.php');
     exit();
 }
 
 $isAdmin = ($_SESSION['role'] === Role::ADMIN);
-$username = $_SESSION['username'] ?? 'Гость';
+$firstName = $_SESSION['first_name'] ?? 'Гость';
+$lastName = $_SESSION['last_name'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta name="version" content="2.2">
+    <meta name="version" content="2.5">
     <meta charset="UTF-8">
     <title>FeBrein Time Tracker</title>
     <link rel="stylesheet" href="style/styles.css">
-    <link rel="icon" href="1.png" type="image/png">
+    <link rel="icon" href="img/1.png" type="image/png">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="src/script.js" defer></script>
@@ -33,13 +35,14 @@ $username = $_SESSION['username'] ?? 'Гость';
         <span class="febrein">FeBrein</span>
         <span>Time Tracker</span>
     </h1>-->
-    <p class="welcome">Привет, <?php echo htmlspecialchars($username); ?>!</p>
-
-
+    <p class="welcome">Привет, <?php echo htmlspecialchars($firstName . ' ' . $lastName); ?>!</p>
+    <!-- Функционал для пользователей -->
+    <div class="user-control-container">
+        <a href="login/change_password.php" class="change-password-button">Изменить Пароль</a>
+    </div>
     <script>
         var isAdmin = <?php echo json_encode($isAdmin); ?>;
     </script>
-
 
     <!-- Элементы управления датой и загрузкой данных -->
     <?php if ($isAdmin): ?>
@@ -53,12 +56,25 @@ $username = $_SESSION['username'] ?? 'Гость';
         </div>
     <?php endif; ?>
 
+    <!-- Информационный блок для сотрудников с возможностью сворачивания -->
+    <div class="info-section">
+        <h2 id="toggle-info" onclick="toggleInfo()">Информация для сотрудников <i class="fas fa-chevron-down"></i></h2>
+        <ul id="info-content">
+            <li>8:00 - обід з 13:00 до 14:00</li>
+            <li>9:00 - обід з 14:00 до 15:00</li>
+            <li>10:00 - обід з 15:00 до 16:00</li>
+            <li>13:00 - обід з 16:00 до 17:00</li>
+            <li>15:00 - обід з 17:00 до 18:00</li>
+        </ul>
+    </div>
+
 
     <!-- Таблица для отображения текущих данных -->
     <table id="work-sessions">
         <thead>
         <tr>
             <th>Имя</th>
+            <th>Фамилия</th>
             <th>Статус</th>
             <th>Начало работы</th>
             <th>Конец работы</th>

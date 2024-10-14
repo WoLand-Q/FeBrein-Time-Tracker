@@ -1,10 +1,7 @@
 <?php
-
-use src\Database;
-
 require_once '../src/app.php';
-
 /** @var Database $db */
+use src\Database;
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     http_response_code(403);
@@ -12,7 +9,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-$users = $db->fetchAll('SELECT id, username, role FROM users');
+$users = $db->fetchAll('SELECT id, first_name, last_name, login, role FROM users');
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -36,19 +33,27 @@ $users = $db->fetchAll('SELECT id, username, role FROM users');
 
     <!-- Форма для добавления нового пользователя -->
     <div class="add-user-form" id="add-user-form">
-        <h2></h2>
+        <h2> </h2>
         <?php if (isset($_SESSION['add_user_error'])): ?>
             <div class="error-message"><?php echo htmlspecialchars($_SESSION['add_user_error']); unset($_SESSION['add_user_error']); ?></div>
         <?php endif; ?>
         <form action="add_user.php" method="post" class="form">
             <div class="form-group">
-                <label for="new_username">Имя пользователя:</label>
-                <input type="text" id="new_username" name="username" required>
+                <label for="new_first_name">Имя:</label>
+                <input type="text" id="new_first_name" name="first_name" required>
+            </div>
+            <div class="form-group">
+                <label for="new_last_name">Фамилия:</label>
+                <input type="text" id="new_last_name" name="last_name" required>
+            </div>
+            <div class="form-group">
+                <label for="new_login">Логин:</label>
+                <input type="text" id="new_login" name="login" required>
             </div>
             <div class="form-group">
                 <label for="new_password">Пароль:</label>
                 <input type="password" id="new_password" name="password" required>
-                <span class="toggle-password" onclick="togglePassword('new_password')">
+                <span class="toggle-password" onclick="togglePassword('new_password', this)">
                     <i class="fas fa-eye"></i>
                 </span>
             </div>
@@ -76,7 +81,9 @@ $users = $db->fetchAll('SELECT id, username, role FROM users');
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Имя пользователя</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Логин</th>
                 <th>Роль</th>
                 <th>Действия</th>
             </tr>
@@ -85,11 +92,14 @@ $users = $db->fetchAll('SELECT id, username, role FROM users');
             <?php foreach ($users as $user): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($user['id']); ?></td>
-                    <td><?php echo htmlspecialchars($user['username']); ?></td>
+                    <td><?php echo htmlspecialchars($user['first_name']); ?></td>
+                    <td><?php echo htmlspecialchars($user['last_name']); ?></td>
+                    <td><?php echo htmlspecialchars($user['login']); ?></td>
                     <td><?php echo htmlspecialchars($user['role']); ?></td>
                     <td>
-                        <?php if ($user['id'] != $_SESSION['user_id']): // Не позволяем удалять самого себя ?>
+                        <?php if ($user['id'] != $_SESSION['user_id']): // Не позволяем изменять/удалять самого себя ?>
                             <a href="change_role.php?id=<?php echo $user['id']; ?>" class="action-button"><i class="fas fa-user-cog"></i> Изменить Роль</a>
+                            <a href="change_password.php?id=<?php echo $user['id']; ?>" class="action-button"><i class="fas fa-key"></i> Изменить Пароль</a>
                             <a href="delete_user.php?id=<?php echo $user['id']; ?>" class="action-button delete-button" onclick="return confirm('Вы уверены, что хотите удалить этого пользователя?');"><i class="fas fa-user-times"></i> Удалить</a>
                         <?php else: ?>
                             <span>—</span>
@@ -99,7 +109,7 @@ $users = $db->fetchAll('SELECT id, username, role FROM users');
             <?php endforeach; ?>
             <?php if (empty($users)): ?>
                 <tr>
-                    <td colspan="4">Пользователи не найдены.</td>
+                    <td colspan="6">Пользователи не найдены.</td>
                 </tr>
             <?php endif; ?>
             </tbody>
@@ -110,17 +120,17 @@ $users = $db->fetchAll('SELECT id, username, role FROM users');
 
 <!-- Скрипт для переключения видимости пароля и формы добавления пользователя -->
 <script>
-    function togglePassword(id) {
+    function togglePassword(id, toggleIcon) {
         const passwordInput = document.getElementById(id);
-        const passwordIcon = passwordInput.nextElementSibling.querySelector('i');
+        const icon = toggleIcon.querySelector('i');
         if (passwordInput.type === 'password') {
             passwordInput.type = 'text';
-            passwordIcon.classList.remove('fa-eye');
-            passwordIcon.classList.add('fa-eye-slash');
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
         } else {
             passwordInput.type = 'password';
-            passwordIcon.classList.remove('fa-eye-slash');
-            passwordIcon.classList.add('fa-eye');
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
         }
     }
 

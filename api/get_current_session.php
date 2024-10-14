@@ -13,7 +13,7 @@ if (!$api->isGet()) {
 $date = date('Y-m-d');
 
 // Получаем сессию текущего пользователя за сегодня
-$session = $db->fetch('SELECT sessions.*, users.username FROM sessions INNER JOIN users ON sessions.user_id = users.id WHERE sessions.date = ? AND sessions.user_id = ?', [$date, $api->user_id]);
+$session = $db->fetch('SELECT sessions.*, users.first_name, users.last_name FROM sessions INNER JOIN users ON sessions.user_id = users.id WHERE sessions.date = ? AND sessions.user_id = ?', [$date, $api->user_id]);
 
 $api->successResponse($session);
 ?>
