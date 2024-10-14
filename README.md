@@ -1,4 +1,4 @@
-# FeBrein Time Tracker 2.2
+# FeBrein Time Tracker 2.5
 
 ![FeBrein Time Tracker](screen/icon.png)
 
